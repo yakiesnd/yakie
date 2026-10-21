@@ -1,9 +1,8 @@
 @import "tailwindcss";
 
-/* Lato — self-hosted (retour V1 §4.1 : grotesque neutre, graisses utilisées seulement) */
-@import "@fontsource/lato/400.css";
-@import "@fontsource/lato/400-italic.css";
-@import "@fontsource/lato/700.css";
+@import "@fontsource/crimson-pro/400.css";
+@import "@fontsource/crimson-pro/600.css";
+@import "@fontsource/crimson-pro/700.css";
 
 /* ============================================================
    Design tokens — palette Affinée 4b
@@ -33,7 +32,7 @@
   --color-on-accent: #161618;
 
   /* §4.1 Typographie — Lato, base 18px, ratio 1.25 → 18/22.5/28/35/44/55 */
-  --font-sans: "Lato", system-ui, sans-serif;
+  --font-sans: "Crimson Pro", Georgia, serif;
   --text-base: 1.125rem; /* 18px */
   --text-base--line-height: 1.6;
   --text-md: 1.25rem; /* 22.5px */
@@ -68,6 +67,25 @@
     position: relative;
     min-height: 100%;
     isolation: isolate;
+  }
+
+  body.theme-light {
+    color-scheme: light;
+    --color-bg: #ffffff;
+    --color-surface: #ffffff;
+    --color-text: #111111;
+    --color-text-muted: #4d4d4d;
+    --color-border: #111111;
+    --color-accent: #111111;
+    --color-accent-2: #111111;
+    --color-on-accent: #ffffff;
+    --color-button-secondary: #111111;
+    --gradient-accent: #111111;
+    background-color: #ffffff;
+  }
+
+  body.theme-light::before {
+    display: none;
   }
 
   body::before {

@@ -17,6 +17,30 @@ const ui = {
     contact: { en: 'Contact', fr: 'Contact' },
   },
   home: {
+    greeting: { en: 'Sound, music & interactive worlds', fr: 'Son, musique & mondes interactifs' },
+    socialLinks: { en: 'Follow my work', fr: 'Suivre mon travail' },
+    aboutLink: { en: 'About', fr: 'À propos' },
+    capabilities: {
+      gameAudio: { en: 'I design sound for games', fr: 'Je crée le son des jeux' },
+      playLive: { en: 'I make and play music', fr: 'Je compose et joue en live' },
+      consulting: { en: 'I consult on Wwise & Unreal', fr: 'Je conseille sur Wwise & Unreal' },
+      mastering: { en: 'I shape immersive mixes', fr: 'Je façonne des mix immersifs' },
+      systems: { en: 'I build audio systems', fr: 'Je construis des systèmes audio' },
+      teach: { en: 'I teach and lead workshops', fr: 'J’enseigne et anime des ateliers' },
+      recording: { en: 'I record sounds in the field', fr: 'Je capture des sons sur le terrain' },
+      explore: { en: 'I explore new sonic worlds', fr: 'J’explore de nouveaux paysages sonores' },
+    },
+    bubbles: {
+      gameAudio: { en: 'Game audio', fr: 'Jeu vidéo' },
+      showreel: { en: 'Showreel', fr: 'Démo' },
+      consulting: { en: 'Consulting', fr: 'Conseil' },
+      workshops: { en: 'Teaching', fr: 'Formation' },
+      music: { en: 'Music', fr: 'Musique' },
+      fieldRecording: { en: 'Field recording', fr: 'Prise de son' },
+      soundDesign: { en: 'Sound design', fr: 'Sound design' },
+      about: { en: 'About', fr: 'À propos' },
+    },
+    contactEmail: { en: 'Get in touch', fr: 'Me contacter' },
     heroTitle: { en: 'Mathieu Fiorentini', fr: 'Mathieu Fiorentini' },
     heroTagline: {
       en: 'Senior sound designer, Wwise consultant and composer',
@@ -140,11 +164,10 @@ export const ASSETS = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
  * la traduction FR est appliquée automatiquement (idempotent).
  */
 const FR_PATHS: [string, string][] = [
-  ['/work/', '/travaux/'],
+  ['/visuals/', '/visuels/'],
+  ['/residencies/', '/residences/'],
+  ['/commissioned-work/', '/commandes/'],
   ['/about/', '/a-propos/'],
-  ['/music/', '/musique/'],
-  ['/legal/', '/mentions-legales/'],
-  ['/privacy/', '/confidentialite/'],
 ];
 
 export function localizedPath(lang: Lang, p: string): string {

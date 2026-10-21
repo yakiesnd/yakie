@@ -15,24 +15,21 @@ racine et français sous `/fr/`) et publié sur GitHub Pages.
 
 | Besoin | Fichiers |
 |---|---|
-| Libellés et navigation | `src/i18n/ui.ts` |
-| Textes des pages | `src/data/pages.ts` |
-| Fiches de projets | `src/content/projects/en/` et `src/content/projects/fr/` |
+| Pages, libellés et feuilles | `src/data/portfolio.ts` |
+| Navigation par langue | `src/i18n/ui.ts` |
 | Identité, email et réseaux sociaux | `src/data/site.ts` |
-| Couleurs et styles | `src/styles/global.css` |
-| Structure des pages | `src/components/pages/` |
-| Images et documents | `public/` |
+| Couleurs, typographie et styles | `src/styles/global.css` et `src/components/pages/SectionPage.astro` |
 | Domaine et préfixe GitHub Pages | `config-domain.mjs` |
 
 ## Pages et liens
 
-- Toute page de contenu doit avoir une version anglaise et une version française.
-- Les liens internes doivent être générés avec `pageUrl` (ou `projectUrl`) depuis
-  `src/i18n/ui.ts`, afin de conserver le bon préfixe sur GitHub Pages.
-- Les images et documents du site doivent être stockés dans `public/` et référencés
-  via le helper `ASSETS` ou `import.meta.env.BASE_URL`.
-- Les liens vers YouTube, Vimeo et SoundCloud restent des liens externes ; ne pas
-  intégrer leurs lecteurs ou scripts.
+- Le site comprend cinq pages en anglais (racine) et cinq pages en français (`/fr/`) :
+  Music, Visuals, Residencies, Commissioned Work et About.
+- Les deux langues doivent garder les mêmes pages et liens de navigation.
+- Les liens internes doivent être générés avec `pageUrl` depuis `src/i18n/ui.ts`,
+  afin de conserver le bon préfixe sur GitHub Pages.
+- Conserver le fond blanc, la police Crimson Pro et le menu latéral partagé.
+- Ne pas ajouter de formulaire, de script tiers ni de tracker.
 
 ## Vérifications
 

@@ -2,7 +2,7 @@
 import { SITE_URL, BASE_PATH } from '../../config-domain.mjs';
 
 export const site = {
-  name: 'Mathieu Fiorentini',
+  name: 'Yakie',
   /** Dérivé de config-domain.mjs — la bascule de domaine n'édite que ce fichier-là.
    *  BASE_PATH '/' (domaine final) ne doit PAS créer de double slash. */
   url: `${SITE_URL}${BASE_PATH === '/' ? '' : BASE_PATH}`,
