@@ -1,47 +1,39 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+
 import tailwindcss from '@tailwindcss/vite';
-
-// ============================================================
-// Adresse du site : calculée automatiquement.
-//
-// Pendant le déploiement GitHub Actions, GitHub fournit le nom du repo
-// (GITHUB_REPOSITORY, ex. "mon-pseudo/mon-site"). On en déduit l'adresse :
-//   https://mon-pseudo.github.io/mon-site/
-// Si le repo s'appelle "mon-pseudo.github.io", l'adresse est
-//   https://mon-pseudo.github.io/
-//
-// Pour un nom de domaine perso (ex. www.mon-domaine.com), écris-le ici
-// entre les guillemets, sans https:// :
-const CUSTOM_DOMAIN = '';
-// ============================================================
-
-const repository = process.env.GITHUB_REPOSITORY ?? '';
-const [owner = '', repoName = ''] = repository.split('/');
-const isUserSite = repoName.toLowerCase() === `${owner.toLowerCase()}.github.io`;
-
-let SITE = 'http://localhost:4321';
-let BASE = '/';
-
-if (CUSTOM_DOMAIN) {
-  SITE = `https://${CUSTOM_DOMAIN}`;
-  BASE = '/';
-} else if (owner) {
-  SITE = `https://${owner.toLowerCase()}.github.io`;
-  BASE = isUserSite ? '/' : `/${repoName}/`;
-}
+import sitemap from '@astrojs/sitemap';
+import { SITE_URL, BASE_PATH } from './config-domain.mjs';
 
 export default defineConfig({
-  site: SITE,
-  base: BASE,
+  site: SITE_URL,
+  base: BASE_PATH,
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fr'],
     routing: {
       prefixDefaultLocale: false,
+      redirectToDefaultLocale: false,
     },
   },
+  /** Redirections des anciennes URLs, avec le préfixe GitHub Pages. */
+  redirects: Object.fromEntries(
+    Object.entries({
+      '/audio/': '/work/?discipline=field-recording',
+      '/musique/': '/music/',
+      '/cv/': '/about/',
+      '/cv-2/': '/about/',
+      '/musique-2/': '/music/',
+      '/a-propos/': '/fr/a-propos/',
+      '/enseignement/': '/consulting/',
+      '/bande-demo-2/': '/work/?discipline=show-reel',
+      '/son/': '/work/',
+      '/demo/': '/work/?discipline=show-reel',
+      '/about-temp/': '/about/',
+    }).map(([from, to]) => [from, `${BASE_PATH.replace(/\/$/, '')}${to}`]),
+  ),
   vite: {
     plugins: [tailwindcss()],
   },
+  integrations: [sitemap()],
 });

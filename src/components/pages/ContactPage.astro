@@ -1,0 +1,41 @@
+---
+/** Contact — spec §5.7 : formulaire (nom, email, type de demande, message), anti-spam Formspree, liens sociaux */
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { useTranslations, type Lang } from '../../i18n/ui';
+import { site } from '../../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { t } = useTranslations(lang);
+const altPath = '/contact/';
+---
+
+<Layout title={`${t('contact.title')} — ${t('home.heroTitle')}`} description={t('contact.intro')} lang={lang} altPath={altPath} skipLabel={t('skipToContent')}>
+  <Header lang={lang} altPath={altPath} />
+  <main id="main">
+    <section class="container-site section !pt-16">
+      <h1 class="text-2xl font-bold">{t('contact.title')}</h1>
+      <p class="measure text-meta mt-3">{t('contact.intro')}</p>
+
+      <p class="mt-8">
+        {t('contact.orEmail')}
+        <a href={`mailto:${site.email}`} class="text-accent hover:text-text">{site.email}</a>
+      </p>
+      <ul class="mt-6 flex flex-wrap gap-4">
+        {site.socials.map((social) => (
+          <li>
+            <a href={social.url} rel="noopener noreferrer" target="_blank" class="text-accent hover:text-text">
+              {social.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+  <Footer lang={lang} altPath={altPath} />
+</Layout>

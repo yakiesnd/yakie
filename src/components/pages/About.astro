@@ -1,0 +1,74 @@
+---
+/** À propos / CV — spec §5.6 : bio, timeline inversée, compétences, formation, CV PDF EN/FR */
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import WpImage from '../../components/WpImage.astro';
+import { useTranslations, type Lang } from '../../i18n/ui';
+import { pages } from '../../data/pages';
+import { site } from '../../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { t, tGroup } = useTranslations(lang);
+const p = pages.about;
+const altPath = '/about/';
+const cv = lang === 'en' ? site.cvPdf.en : site.cvPdf.fr;
+// meta description ≤ 160 car. — capte les requêtes du vieux /cv/ indexé par Google (CV, SACEM, discographie)
+const metaDesc = lang === 'fr'
+  ? 'CV de Mathieu Fiorentini — sound designer senior (Heavy Rain, Detroit, Banishers), musicien Yakie, membre SACEM et SACD. Parcours, compétences et CV PDF.'
+  : 'Mathieu Fiorentini CV — senior sound designer (Heavy Rain, Detroit, Banishers), Yakie composer, SACEM & SACD member. Career, skills and downloadable CV.';
+---
+
+<Layout title={`${p.title[lang]} — ${t('home.heroTitle')}`} description={metaDesc} lang={lang} altPath={altPath} skipLabel={t('skipToContent')}>
+  <Header lang={lang} altPath={altPath} />
+  <main id="main">
+    <section class="container-site section !pt-16">
+      <div class="grid items-start gap-8 md:grid-cols-[2fr_1fr]">
+        <div>
+          <h1 class="text-2xl font-bold">{p.title[lang]}</h1>
+          <p class="measure text-meta mt-4">{p.bioShort[lang]}</p>
+          <a href={cv} class="btn-secondary mt-6 inline-flex" download>{p.cvLabel[lang]}</a>
+        </div>
+        <WpImage
+          asset="photoPloupi"
+          sizes="(max-width: 768px) 100vw, 300px"
+          class="w-full max-w-[300px] rounded-(--radius-media)"
+        />
+      </div>
+    </section>
+
+    <!-- Parcours : timeline chronologique inversée (frise justifiée ici) -->
+    <section class="container-site section" aria-labelledby="timeline-title">
+      <h2 id="timeline-title" class="text-lg font-bold">{lang === 'fr' ? 'Parcours' : 'Career'}</h2>
+      <ol class="measure mt-6 space-y-0 border-l-2 border-border">
+        {p.timeline.map((step) => (
+          <li class="tabular relative pb-8 pl-8 last:pb-0">
+            <span class="absolute -left-[5px] top-1.5 h-2 w-2 rounded-full bg-accent" aria-hidden="true"></span>
+            <span class="text-meta font-semibold">{step.years}</span>
+            <p class="text-meta mt-1">{step.role}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- Compétences + Formation -->
+    <section class="container-site section">
+      <div class="grid gap-12 md:grid-cols-2">
+        <div>
+          <h2 class="text-lg font-bold">{p.skills.title[lang]}</h2>
+          <p class="measure text-meta mt-3">{p.skills.items[lang]}</p>
+          <p class="measure text-meta mt-4">{p.affiliations.items[lang]}</p>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold">{p.education.title[lang]}</h2>
+          <p class="measure text-meta mt-3">{p.education.text[lang]}</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer lang={lang} altPath={altPath} />
+</Layout>

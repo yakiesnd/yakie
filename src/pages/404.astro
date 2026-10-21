@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import EarlyReflections from '../components/EarlyReflections.astro';
+import { pageUrl, useTranslations } from '../i18n/ui';
+
+const { t: en } = useTranslations('en');
+const { t: fr } = useTranslations('fr');
+---
+
+<Layout title={`${en('notFound.title')} / ${fr('notFound.title')} — Mathieu Fiorentini`} description={`${en('notFound.title')} / ${fr('notFound.title')}.`} lang="en" skipLabel={en('skipToContent')}>
+  <Header lang="en" altPath="/" />
+  <main id="main" class="container-site section !pt-24">
+    <EarlyReflections variant="hero" class="text-border" />
+    <h1 class="text-2xl font-bold mt-8">{en('notFound.title')} / {fr('notFound.title')}</h1>
+    <p class="mt-3">{en('notFound.description')} {fr('notFound.description')}</p>
+    <nav class="mt-6 flex gap-4">
+      <a href={pageUrl('en', '/')} class="text-accent">{en('notFound.home')}</a>
+      <a href={pageUrl('fr', '/')} class="text-accent">{fr('notFound.home')}</a>
+    </nav>
+  </main>
+  <Footer lang="en" altPath="/" />
+</Layout>

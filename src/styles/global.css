@@ -1,7 +1,220 @@
 @import "tailwindcss";
 
-/* Couleurs du site : modifiez ces deux lignes pour changer la palette. */
+/* Lato — self-hosted (retour V1 §4.1 : grotesque neutre, graisses utilisées seulement) */
+@import "@fontsource/lato/400.css";
+@import "@fontsource/lato/400-italic.css";
+@import "@fontsource/lato/700.css";
+
+/* ============================================================
+   Design tokens — palette Affinée 4b
+   ============================================================ */
+:root {
+  color-scheme: dark;
+  --color-bg: #161618;
+  --color-surface: #1F1F22;
+  --color-text: #ECECEC;
+  --color-text-muted: #A1A1A6;
+  --color-border: #2E2E33;
+  --color-accent: #2CCDF2;
+  --color-accent-2: #FF7A1F;
+  --color-button-secondary: #4A4A50;
+  --color-on-accent: #161618;
+  --gradient-accent: linear-gradient(90deg, var(--color-accent), var(--color-accent-2));
+}
+
 @theme {
-  --color-brand: #1d4ed8;
-  --color-brand-dark: #1e3a8a;
+  --color-bg: #161618;
+  --color-surface: #1F1F22;
+  --color-text: #ECECEC;
+  --color-text-muted: #A1A1A6;
+  --color-border: #2E2E33;
+  --color-accent: #2CCDF2;
+  --color-accent-2: #FF7A1F;
+  --color-on-accent: #161618;
+
+  /* §4.1 Typographie — Lato, base 18px, ratio 1.25 → 18/22.5/28/35/44/55 */
+  --font-sans: "Lato", system-ui, sans-serif;
+  --text-base: 1.125rem; /* 18px */
+  --text-base--line-height: 1.6;
+  --text-md: 1.25rem; /* 22.5px */
+  --text-lg: 1.75rem; /* 28px */
+  --text-xl: 2.1875rem; /* 35px */
+  --text-2xl: 2.75rem; /* 44px */
+  --text-3xl: 3.4375rem; /* 55px */
+  --text-fluid-hero: clamp(2.1875rem, 1.2rem + 3.5vw, 3.4375rem);
+
+  /* §6.5 Layout */
+  --spacing-gutter: 1.5rem; /* 24px */
+  --spacing-section: 4.5rem; /* 72px mobile */
+  --max-width: 75rem; /* 1200px */
+  --radius-media: 2px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --spacing-section: 7.5rem; /* 120px desktop */
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-bg);
+  }
+
+  body {
+    @apply bg-bg font-sans text-text antialiased;
+    font-size: var(--text-base);
+    position: relative;
+    min-height: 100%;
+    isolation: isolate;
+  }
+
+  body::before {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    aspect-ratio: 1 / 5;
+    background-image: var(--background-texture);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: top center;
+    opacity: 0.09;
+    content: "";
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  }
+
+  a:not(.btn, .btn-primary, .btn-secondary, .site-brand, .nav-link, .language-switch, [data-project-card], .lite-embed-trigger) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 150ms;
+  }
+
+  a:not(.btn, .btn-primary, .btn-secondary, .site-brand, .nav-link, .language-switch, [data-project-card], .lite-embed-trigger):hover {
+    color: var(--color-text);
+  }
+
+  .site-nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 4px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    text-decoration: none;
+  }
+
+  .site-nav button {
+    color: var(--color-text);
+    background-color: var(--color-bg);
+  }
+
+  input,
+  textarea,
+  select {
+    color: var(--color-text);
+  }
+
+  ::placeholder {
+    color: var(--color-text-muted);
+    opacity: 1;
+  }
+
+  /* Focus clavier = signal (§8 accessibilité) */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-media);
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  /* Chiffres tabulaires pour années et dates (§6.3) */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* Conteneur : 1200px max, gouttières 24px (§6.5) */
+  .container-site {
+    @apply mx-auto w-full max-w-(--max-width) px-(--spacing-gutter);
+  }
+
+  /* Espacement entre sections : 120px desktop, 72px mobile (§6.5) */
+  .section {
+    @apply pt-(--spacing-section);
+  }
+
+  /* Longueur de ligne ≤ 68 caractères (§6.3) */
+  .measure {
+    max-width: 42rem;
+  }
+
+  /* Texte méta */
+  .text-meta {
+    @apply text-text-muted;
+  }
+
+  /* Boutons : texte explicite, sans flèche (§6.5) */
+  .btn,
+  .btn-primary,
+  .btn-secondary {
+    @apply inline-flex items-center px-5 py-3 text-base font-medium transition-colors;
+    border-radius: 3px;
+  }
+  .btn-primary {
+    @apply text-on-accent;
+    background-image: var(--gradient-accent);
+    transition: filter 150ms;
+    &:hover {
+      filter: brightness(1.08);
+    }
+  }
+  .btn-secondary {
+    @apply border text-text;
+    border-color: var(--color-button-secondary);
+    background-color: transparent;
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+  }
+
+  /* Pastilles de discipline (§5.2) */
+  .pill {
+    @apply inline-flex items-center rounded-full border border-border bg-surface px-3 py-0.5 text-sm text-text-muted;
+  }
+  .pill-active {
+    @apply border-accent bg-surface text-accent;
+  }
+
+  /* Images : pas d'ombre, rayon 2px max, ratio 16:9 (§6.5) */
+  .media-16x9 {
+    @apply block w-full overflow-hidden rounded-(--radius-media);
+    aspect-ratio: 16 / 9;
+  }
+  .media-16x9 img {
+    @apply h-full w-full object-cover;
+  }
+}
+
+/* Accessibilité — reduced motion (§6.4) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

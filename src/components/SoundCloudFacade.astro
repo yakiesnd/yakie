@@ -1,0 +1,24 @@
+---
+/** Lien vers le morceau : aucun lecteur tiers n'est chargé dans cette page. */
+import EarlyReflections from './EarlyReflections.astro';
+
+interface Props {
+  /** URL complète du track ou de la playlist SoundCloud */
+  url: string;
+  title: string;
+  class?: string;
+}
+
+const { url, title, class: className = '' } = Astro.props;
+---
+
+<div class:list={['lite-embed media-16x9 relative bg-surface', className]}>
+  <a href={url} rel="noopener noreferrer" target="_blank" class="group absolute inset-0 flex items-center justify-center overflow-hidden" aria-label={title}>
+    <EarlyReflections variant="hero" class="absolute inset-0 h-full w-full" />
+    <span class="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-accent text-on-accent transition-transform group-hover:scale-105" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M6 4l10 6-10 6V4z"></path>
+      </svg>
+    </span>
+  </a>
+</div>

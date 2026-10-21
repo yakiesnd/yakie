@@ -1,0 +1,67 @@
+---
+/** Musique (Yakie) — spec §5.5 : radio, sorties, distinction + grille des projets « Music » */
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import { useTranslations, pageUrl, type Lang } from '../../i18n/ui';
+import { pages } from '../../data/pages';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { t, tGroup } = useTranslations(lang);
+const p = pages.music;
+const altPath = '/music/';
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+const musicProjects = (await getCollection('projects'))
+  .filter((proj) => proj.id.startsWith(`${lang}/`) && proj.data.disciplines.includes('music'))
+  .sort((a, b) => (a.data.order ?? Infinity) - (b.data.order ?? Infinity));
+---
+
+<Layout title={`${p.title[lang]} — Yakie — ${t('home.heroTitle')}`} description={p.intro[lang]} lang={lang} altPath={altPath} skipLabel={t('skipToContent')}>
+  <Header lang={lang} altPath={altPath} />
+  <main id="main">
+    <section class="container-site section !pt-16">
+      <div class="grid items-center gap-8 md:grid-cols-[1fr_2fr]">
+        <img
+          src={`${base}images/music-artwork_1024.jpg`}
+          srcset={`${base}images/music-artwork_300.jpg 300w, ${base}images/music-artwork_768.jpg 768w, ${base}images/music-artwork_1024.jpg 1024w`}
+          sizes="(max-width: 768px) 100vw, 400px"
+          alt={lang === 'fr'
+            ? 'Paysage abstrait de crêtes montagneuses superposées dans des brumes turquoise et vertes, avec des accents roses'
+            : 'Abstract landscape of layered mountain ridges in teal and green mist with pink accents'}
+          width="1024"
+          height="1024"
+          loading="lazy"
+          class="w-full max-w-xs rounded-(--radius-media)"
+        />
+        <div>
+          <h1 class="text-2xl font-bold">{p.title[lang]}</h1>
+          <p class="measure text-meta mt-3">{p.intro[lang]}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Informations musique juste sous Work, puis grille des projets -->
+    <section class="container-site section !pt-16" aria-labelledby="music-grid-title">
+      <h2 id="music-grid-title" class="text-lg font-bold">{t('work.title')}</h2>
+      <div class="mt-8 grid gap-8 md:grid-cols-3">
+        {p.sections.map((section) => (
+          <div>
+            <h3 class="font-semibold">{section.title[lang]}</h3>
+            <p class="text-meta mt-2">{section.text[lang]}</p>
+          </div>
+        ))}
+      </div>
+      <div class="mt-8">
+        <ProjectGrid projects={musicProjects} lang={lang} withFilters={false} />
+      </div>
+    </section>
+  </main>
+  <Footer lang={lang} altPath={altPath} />
+</Layout>

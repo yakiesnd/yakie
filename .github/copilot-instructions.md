@@ -1,37 +1,40 @@
-# Instructions pour Copilot — site-scaffold
+# Instructions pour Copilot
 
-Ce repo est un site statique **Astro + Tailwind CSS v4**, publié sur **GitHub Pages** via GitHub Actions.
-Il est **bilingue** : français (`/fr/`) et anglais (`/` racine). Toute modification de contenu doit rester bilingue.
+Ce dépôt contient un site statique Astro + Tailwind CSS v4, bilingue (anglais à la
+racine et français sous `/fr/`) et publié sur GitHub Pages.
 
-## Règles de base
+## Règles
 
-- Ne jamais ajouter de dépendance npm sans le demander explicitement.
-- Ne jamais modifier `.github/workflows/deploy.yml` sauf demande explicite.
-- Ne jamais ajouter de formulaire de contact, de script tiers ou de tracker.
-- Garder le code simple et lisible : le propriétaire du site est débutant.
-- Commenter en français les parties de code qui ne sont pas évidentes.
+- Ne pas ajouter de dépendance npm sans autorisation explicite.
+- Ne pas modifier `.github/workflows/deploy.yml` sans demande explicite.
+- Ne pas ajouter de formulaire de contact, de script tiers ni de tracker.
+- Garder le code simple et lisible ; commenter en français ce qui n'est pas évident.
+- Toute modification de contenu doit rester disponible en anglais et en français.
 
-## Où modifier quoi
+## Où modifier
 
-| Je veux… | Fichier à modifier |
+| Besoin | Fichiers |
 |---|---|
-| changer un texte (titre, services, à propos, contact, footer) | `src/content/site.json` — toujours modifier **les deux** blocs `fr` et `en` |
-| changer les couleurs | `src/styles/global.css` (bloc `@theme`) |
-| changer la structure d'une section (ex. ajouter une section) | `src/components/Home.astro` |
-| ajouter une page | `src/pages/nom-de-la-page.astro` (anglais) **et** `src/pages/fr/nom-de-la-page.astro` (français) |
-| changer l'adresse du site (domaine perso) | `astro.config.mjs` (constante `CUSTOM_DOMAIN`) — l'adresse est calculée automatiquement, ne pas la modifier autrement |
-| changer l'icône du site | `public/favicon.svg` |
+| Libellés et navigation | `src/i18n/ui.ts` |
+| Textes des pages | `src/data/pages.ts` |
+| Fiches de projets | `src/content/projects/en/` et `src/content/projects/fr/` |
+| Identité, email et réseaux sociaux | `src/data/site.ts` |
+| Couleurs et styles | `src/styles/global.css` |
+| Structure des pages | `src/components/pages/` |
+| Images et documents | `public/` |
+| Domaine et préfixe GitHub Pages | `config-domain.mjs` |
 
-## Règles pour les pages et le contenu
+## Pages et liens
 
-- Chaque page doit exister en français ET en anglais.
-- Les textes visibles ne doivent jamais être codés en dur dans les `.astro` : ils viennent de `src/content/site.json`.
-- Les liens internes doivent utiliser `import.meta.env.BASE_URL` (jamais un chemin écrit en dur comme `/about`).
-- Les liens de navigation entre langues utilisent `switchHref` dans `site.json`.
-- Les images vont dans `public/` et sont référencées avec `${import.meta.env.BASE_URL}chemin/image.jpg`.
+- Toute page de contenu doit avoir une version anglaise et une version française.
+- Les liens internes doivent être générés avec `pageUrl` (ou `projectUrl`) depuis
+  `src/i18n/ui.ts`, afin de conserver le bon préfixe sur GitHub Pages.
+- Les images et documents du site doivent être stockés dans `public/` et référencés
+  via le helper `ASSETS` ou `import.meta.env.BASE_URL`.
+- Les liens vers YouTube, Vimeo et SoundCloud restent des liens externes ; ne pas
+  intégrer leurs lecteurs ou scripts.
 
-## Avant de proposer une pull request
+## Vérifications
 
-- Vérifier que `npm run build` passe sans erreur.
-- Vérifier que les deux langues ont les mêmes clés dans `src/content/site.json`.
-- Résumer dans la description de la PR ce qui a changé, en français.
+Avant de proposer une pull request, exécuter `npm run check` et `npm run build`.
+Décrire les changements en français.
