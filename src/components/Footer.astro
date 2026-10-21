@@ -1,0 +1,30 @@
+---
+import EarlyReflections from './EarlyReflections.astro';
+import { site } from '../data/site';
+import { pageUrl, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  altPath?: string;
+}
+
+const { lang, altPath = '/' } = Astro.props;
+const { t, tGroup } = useTranslations(lang);
+const otherLang: Lang = lang === 'en' ? 'fr' : 'en';
+---
+
+<footer class="section bg-surface text-text-muted">
+  <div class="container-site border-t border-border pt-8 pb-12">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <a href={pageUrl(lang, '/')} class="site-brand flex items-center gap-2">
+        <EarlyReflections variant="mark" />
+        <span class="font-semibold">{site.name}</span>
+      </a>
+      <ul class="flex flex-wrap gap-4 text-sm">
+        <li><a href={pageUrl(lang, '/legal/')} class="text-accent hover:text-text">{t('footer.legal')}</a></li>
+        <li><a href={pageUrl(lang, '/privacy/')} class="text-accent hover:text-text">{t('footer.privacy')}</a></li>
+        <li><a href={pageUrl(otherLang, altPath)} hreflang={otherLang} class="language-switch tabular text-accent hover:text-text">{otherLang.toUpperCase()}</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
