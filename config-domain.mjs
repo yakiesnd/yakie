@@ -1,5 +1,5 @@
 // Domaine personnalisé facultatif ; laisser vide pour GitHub Pages.
-const CUSTOM_DOMAIN = '';
+const CUSTOM_DOMAIN = 'www.yakie.eu';
 const repository = process.env.GITHUB_REPOSITORY ?? '';
 const [owner = '', repoName = ''] = repository.split('/');
 const isUserSite = repoName.toLowerCase() === `${owner.toLowerCase()}.github.io`;
