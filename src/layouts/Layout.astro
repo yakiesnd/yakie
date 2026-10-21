@@ -19,9 +19,11 @@ interface Props {
   schema?: Record<string, unknown> | Record<string, unknown>[];
   /** Type Open Graph (article pour les fiches projet) */
   ogType?: 'website' | 'article';
+  /** Thème clair ponctuel, utilisé par l'accueil. */
+  light?: boolean;
 }
 
-const { title, description, lang, altPath, skipLabel, noAlternate = false, ogImage, schema, ogType = 'website' } = Astro.props;
+const { title, description, lang, altPath, skipLabel, noAlternate = false, ogImage, schema, ogType = 'website', light = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 const ogImageUrl = new URL(ogImage ?? `${base}og-default.webp`, Astro.site ?? site.url).href;
@@ -49,7 +51,7 @@ const alternates = noAlternate || !altPath
     <link rel="icon" type="image/png" sizes="16x16" href={`${base}favicon-16.png`} />
     <link rel="apple-touch-icon" sizes="180x180" href={`${base}apple-touch-icon.png`} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#161618" />
+    <meta name="theme-color" content={light ? '#ffffff' : '#161618'} />
     <meta name="generator" content={Astro.generator} />
 
     {alternates.map((alt) => <link rel="alternate" hreflang={alt.lang} href={alt.href} />)}
@@ -69,7 +71,7 @@ const alternates = noAlternate || !altPath
 
     {schemaList.map((node) => <script is:inline type="application/ld+json" set:html={JSON.stringify(node)} />)}
   </head>
-  <body style={`--background-texture: url("${base}images/fond-texture-7200.webp")`}>
+  <body class:list={{ 'theme-light': light }} style={`--background-texture: url("${base}images/fond-texture-7200.webp")`}>
     <svg aria-hidden="true" width="0" height="0" class="absolute">
       <defs>
         <linearGradient id="brand-gradient" x1="0" y1="0" x2="112" y2="0" gradientUnits="userSpaceOnUse">

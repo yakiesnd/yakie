@@ -1,8 +1,9 @@
-# Portfolio de Mathieu Fiorentini
+# Yakie
 
-Site statique bilingue (anglais à la racine, français sous `/fr/`), réalisé avec
-Astro 6 et Tailwind CSS 4. Le site présente les travaux, le consulting, la musique
-et le parcours de Mathieu Fiorentini.
+Site statique bilingue inspiré d’un portfolio éditorial : fond blanc, typographie
+Crimson Pro et navigation illustrée de feuilles. Il comprend cinq pages : Music,
+Visuals, Residencies, Commissioned Work et About. Les pages françaises sont sous
+`/fr/`.
 
 ## Développement
 
@@ -17,15 +18,13 @@ npm run build
 
 ## Contenu
 
-- `src/i18n/ui.ts` : libellés et navigation traduits.
-- `src/data/pages.ts` : contenus des pages en anglais et en français.
-- `src/content/projects/{en,fr}/` : fiches bilingues des projets.
-- `src/data/site.ts` : identité, coordonnées et liens externes.
-- `public/` : images, icônes et documents statiques.
+- `src/data/portfolio.ts` : pages, libellés et positions des feuilles.
+- `src/components/pages/SectionPage.astro` : mise en page commune aux cinq pages.
+- `src/i18n/ui.ts` : routes bilingues et helpers de liens.
+- `src/data/site.ts` : identité, coordonnées et liens sociaux.
 
-Chaque ajout ou changement de contenu doit rester disponible dans les deux langues.
-Les lecteurs de médias externes ne sont pas intégrés : les pages proposent des liens
-qui ouvrent le service concerné uniquement si le visiteur les suit.
+Chaque page existe en anglais et en français. Les contenus détaillés seront ajoutés
+dans une prochaine étape.
 
 ## GitHub Pages
 
