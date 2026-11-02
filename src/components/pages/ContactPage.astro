@@ -1,5 +1,5 @@
 ---
-/** Contact — spec §5.7 : formulaire (nom, email, type de demande, message), anti-spam Formspree, liens sociaux */
+/** Page de contact avec les réseaux sociaux. */
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
@@ -21,11 +21,6 @@ const altPath = '/contact/';
     <section class="container-site section !pt-16">
       <h1 class="text-2xl font-bold">{t('contact.title')}</h1>
       <p class="measure text-meta mt-3">{t('contact.intro')}</p>
-
-      <p class="mt-8">
-        {t('contact.orEmail')}
-        <a href={`mailto:${site.email}`} class="text-accent hover:text-text">{site.email}</a>
-      </p>
       <ul class="mt-6 flex flex-wrap gap-4">
         {site.socials.map((social) => (
           <li>

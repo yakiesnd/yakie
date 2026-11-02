@@ -1,5 +1,5 @@
 ---
-/** À propos / CV — spec §5.6 : bio, timeline inversée, compétences, formation, CV PDF EN/FR */
+/** À propos / CV — bio, parcours, compétences, formation et CV PDF français */
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
@@ -16,11 +16,10 @@ const { lang } = Astro.props;
 const { t, tGroup } = useTranslations(lang);
 const p = pages.about;
 const altPath = '/about/';
-const cv = lang === 'en' ? site.cvPdf.en : site.cvPdf.fr;
 // meta description ≤ 160 car. — capte les requêtes du vieux /cv/ indexé par Google (CV, SACEM, discographie)
 const metaDesc = lang === 'fr'
   ? 'CV de Mathieu Fiorentini — sound designer senior (Heavy Rain, Detroit, Banishers), musicien Yakie, membre SACEM et SACD. Parcours, compétences et CV PDF.'
-  : 'Mathieu Fiorentini CV — senior sound designer (Heavy Rain, Detroit, Banishers), Yakie composer, SACEM & SACD member. Career, skills and downloadable CV.';
+  : 'Mathieu Fiorentini CV — senior sound designer (Heavy Rain, Detroit, Banishers), Yakie composer, SACEM & SACD member. Career and skills.';
 ---
 
 <Layout title={`${p.title[lang]} — ${t('home.heroTitle')}`} description={metaDesc} lang={lang} altPath={altPath} skipLabel={t('skipToContent')}>
@@ -31,7 +30,9 @@ const metaDesc = lang === 'fr'
         <div>
           <h1 class="text-2xl font-bold">{p.title[lang]}</h1>
           <p class="measure text-meta mt-4">{p.bioShort[lang]}</p>
-          <a href={cv} class="btn-secondary mt-6 inline-flex" download>{p.cvLabel[lang]}</a>
+          {lang === 'fr' && (
+            <a href={site.cvPdf.fr} class="btn-secondary mt-6 inline-flex" download>{p.cvLabel.fr}</a>
+          )}
         </div>
         <WpImage
           asset="photoPloupi"
