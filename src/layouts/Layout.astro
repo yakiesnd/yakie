@@ -70,6 +70,7 @@ const alternates = noAlternate || !altPath
     <meta name="twitter:image" content={ogImageUrl} />
 
     {schemaList.map((node) => <script is:inline type="application/ld+json" set:html={JSON.stringify(node)} />)}
+    <slot name="head" />
   </head>
   <body class:list={{ 'theme-light': light }} style={`--background-texture: url("${base}images/fond-texture-7200.webp")`}>
     <svg aria-hidden="true" width="0" height="0" class="absolute">
