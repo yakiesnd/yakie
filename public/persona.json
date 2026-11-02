@@ -4,7 +4,6 @@
     "name": "https://schema.org/name",
     "jobTitle": "https://schema.org/jobTitle",
     "url": "https://schema.org/url",
-    "email": "https://schema.org/email",
     "sameAs": "https://schema.org/sameAs",
     "knowsAbout": "https://schema.org/knowsAbout",
     "alumniOf": "https://schema.org/alumniOf"
@@ -61,8 +60,7 @@
     "tools": ["Wwise", "Unreal Engine", "Reaper", "Pro Tools", "Soundminer", "Kyma"]
   },
   "contact": {
-    "email": "mathieu.fiorentini@gmail.com",
-    "linkedin": "https://www.linkedin.com/in/mathieu-fiorentini-681441344",
+    "bandcamp": "https://yakie.bandcamp.com/track/your-light-roamed-first",
     "soundcloud": "https://soundcloud.com/yakiemusic",
     "form": "https://earlyreflect.com/contact/"
   },
@@ -71,7 +69,7 @@
     "fr": "https://earlyreflect.com/documents/cv-fr.pdf"
   },
   "sameAs": [
-    "https://www.linkedin.com/in/mathieu-fiorentini-681441344",
+    "https://yakie.bandcamp.com/track/your-light-roamed-first",
     "https://soundcloud.com/yakiemusic"
   ],
   "siteCredits": {

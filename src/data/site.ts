@@ -8,13 +8,11 @@ export const site = {
   url: `${SITE_URL}${BASE_PATH === '/' ? '' : BASE_PATH}`,
   showreelYouTubeId: 'ng6NrgjAa6M',
   cvPdf: {
-    en: `${BASE_PATH.replace(/\/$/, '')}/documents/cv-en.pdf`,
     fr: `${BASE_PATH.replace(/\/$/, '')}/documents/cv-fr.pdf`,
   },
   socials: [
     { label: 'SoundCloud (Yakie)', url: 'https://soundcloud.com/yakiemusic' },
-    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/mathieu-fiorentini-681441344' },
+    { label: 'Bandcamp', url: 'https://yakie.bandcamp.com/track/your-light-roamed-first' },
   ],
-  email: 'mathieu.fiorentini@gmail.com',
   tools: ['Wwise', 'Unreal Engine', 'Reaper', 'Pro Tools', 'Soundminer', 'Kyma'],
 } as const;

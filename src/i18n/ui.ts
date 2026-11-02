@@ -112,7 +112,6 @@ const ui = {
     },
     message: { en: 'Message', fr: 'Message' },
     send: { en: 'Send message', fr: 'Envoyer le message' },
-    orEmail: { en: 'or write to me directly at', fr: 'ou écrivez-moi directement à' },
   },
   footer: {
     legal: { en: 'Legal notice', fr: 'Mentions légales' },

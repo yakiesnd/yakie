@@ -16,10 +16,10 @@ export const portfolioSections: {
   { id: 'about', path: '/about/', label: { en: 'About', fr: 'À propos' }, color: 'red', size: 'small', position: 'leaf-about', rotation: -10 },
 ];
 
-export const portfolioCopy: Record<PortfolioSection, { title: Record<'en' | 'fr', string>; number: string }> = {
-  music: { title: { en: 'Music', fr: 'Musique' }, number: '01' },
-  visuals: { title: { en: 'Visuals', fr: 'Visuels' }, number: '02' },
-  residencies: { title: { en: 'Residencies', fr: 'Résidences' }, number: '03' },
-  commissionedWork: { title: { en: 'Commissioned Work', fr: 'Commandes' }, number: '04' },
-  about: { title: { en: 'About', fr: 'À propos' }, number: '05' },
+export const portfolioCopy: Record<PortfolioSection, { title: Record<'en' | 'fr', string> }> = {
+  music: { title: { en: 'Music', fr: 'Musique' } },
+  visuals: { title: { en: 'Visuals', fr: 'Visuels' } },
+  residencies: { title: { en: 'Residencies', fr: 'Résidences' } },
+  commissionedWork: { title: { en: 'Commissioned Work', fr: 'Commandes' } },
+  about: { title: { en: 'About', fr: 'À propos' } },
 };
