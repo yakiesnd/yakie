@@ -163,6 +163,7 @@ export const ASSETS = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
  * la traduction FR est appliquée automatiquement (idempotent).
  */
 const FR_PATHS: [string, string][] = [
+  ['/music/', '/musique/'],
   ['/visuals/', '/visuels/'],
   ['/residencies/', '/residences/'],
   ['/commissioned-work/', '/commandes/'],

@@ -9,7 +9,7 @@ export const portfolioSections: {
   position: string;
   rotation: number;
 }[] = [
-  { id: 'music', path: '/', label: { en: 'Music', fr: 'Musique' }, color: 'red', size: 'large', position: 'leaf-music', rotation: 24 },
+  { id: 'music', path: '/music/', label: { en: 'Music', fr: 'Musique' }, color: 'red', size: 'large', position: 'leaf-music', rotation: 24 },
   { id: 'visuals', path: '/visuals/', label: { en: 'Visuals', fr: 'Visuels' }, color: 'yellow', size: 'medium', position: 'leaf-visuals', rotation: -34 },
   { id: 'residencies', path: '/residencies/', label: { en: 'Residencies', fr: 'Résidences' }, color: 'blue', size: 'small', position: 'leaf-residencies', rotation: 8 },
   { id: 'commissionedWork', path: '/commissioned-work/', label: { en: 'Commissioned Work', fr: 'Commandes' }, color: 'yellow', size: 'tiny', position: 'leaf-commissioned', rotation: 60 },
