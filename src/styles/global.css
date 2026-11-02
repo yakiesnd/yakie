@@ -1,8 +1,22 @@
 @import "tailwindcss";
 
-@import "@fontsource/crimson-pro/400.css";
-@import "@fontsource/crimson-pro/600.css";
-@import "@fontsource/crimson-pro/700.css";
+@font-face {
+  font-family: "Figtree";
+  src: url("../assets/fonts/Figtree-Medium-LatinExt.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Figtree";
+  src: url("../assets/fonts/Figtree-Medium-Latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 /* ============================================================
    Design tokens — palette Affinée 4b
@@ -31,8 +45,8 @@
   --color-accent-2: #FF7A1F;
   --color-on-accent: #161618;
 
-  /* §4.1 Typographie — Lato, base 18px, ratio 1.25 → 18/22.5/28/35/44/55 */
-  --font-sans: "Crimson Pro", Georgia, serif;
+  /* §4.1 Typographie — Figtree Medium, base 18px */
+  --font-sans: "Figtree", sans-serif;
   --text-base: 1.125rem; /* 18px */
   --text-base--line-height: 1.6;
   --text-md: 1.25rem; /* 22.5px */
@@ -64,6 +78,8 @@
   body {
     @apply bg-bg font-sans text-text antialiased;
     font-size: var(--text-base);
+    font-weight: 500;
+    font-synthesis: none;
     position: relative;
     min-height: 100%;
     isolation: isolate;
