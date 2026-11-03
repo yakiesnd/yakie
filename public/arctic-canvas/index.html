@@ -15,14 +15,13 @@
        instead of decoding audio in the browser. Without peaks, a placeholder
        waveform is drawn.
      While "src" is empty, the player simulates playback so the design can be judged.
-  3. Video: never host full videos on GitHub Pages. Upload them to Vimeo (no ads,
-     no suggestions after playback) and set data-vimeo="<video id>" on each .clip.
-     Optional: data-start="95" to start at a given second.
+  3. Video: never host full videos on GitHub Pages. Upload them to Mux and set
+     data-mux="<playback id>" on the matching .clip.
      Optional: data-preview="assets/xxx-loop.mp4", a 4-6 s muted H.264 loop
      (720p, under 2 MB) that plays silently in the poster when visible.
   4. Posters: 1280x720 JPEG or WebP, under 150 KB each.
   5. Behaviour to keep: starting a video pauses the music, starting the music
-     pauses any open video (Vimeo postMessage API), no sound ever autoplays,
+     closes any open video, no sound ever autoplays,
      prefers-reduced-motion disables preview loops and the playing indicator.
   6. Layout to keep: on a laptop screen the player + 4 videos fit; the column
      width is derived from the viewport height (see .page). The application text
@@ -419,7 +418,7 @@
   </section>
 
   <section class="reel" aria-label="Videos">
-    <figure class="clip" data-vimeo="" data-start="" data-preview="">
+    <figure class="clip" data-mux="" data-preview="">
       <div class="clip-frame">
         <button class="clip-open" type="button">
           <img src="assets/live-set.jpg" alt="Yakie performing live in front of a large projection, in a wooden hall">
@@ -431,7 +430,7 @@
       </div>
     </figure>
 
-    <figure class="clip" data-vimeo="" data-start="" data-preview="">
+    <figure class="clip" data-mux="TOG00CC3Z202d8uKbxmxYCjJgNmrCC4xmAux33eLWBG3Y" data-preview="">
       <div class="clip-frame">
         <button class="clip-open" type="button">
           <img src="assets/caustic.jpg" alt="White caustic light lines on black, like tree rings">
@@ -443,7 +442,7 @@
       </div>
     </figure>
 
-    <figure class="clip" data-vimeo="" data-start="" data-preview="">
+    <figure class="clip" data-mux="" data-preview="">
       <div class="clip-frame">
         <button class="clip-open" type="button">
           <img src="assets/home-session.jpg" alt="Yakie playing a wooden controller, a projection reacting behind him">
@@ -455,7 +454,7 @@
       </div>
     </figure>
 
-    <figure class="clip" data-vimeo="" data-start="" data-preview="">
+    <figure class="clip" data-mux="" data-preview="">
       <div class="clip-frame">
         <button class="clip-open" type="button">
           <img src="assets/cyanotype.jpg" alt="Teal, painterly surge of light on a dark grain">
@@ -669,12 +668,15 @@
   audio.addEventListener('ended', next);
   new ResizeObserver(drawWave).observe(canvas);
 
-  // Videos: poster -> Vimeo player in place. Music and video never play together.
+  // Videos: poster -> Mux player in place. Music and video never play together.
   const clips = [...document.querySelectorAll('.clip')];
+  const posterButtons = new Map(clips.map(clip => [clip, clip.querySelector('.clip-open')]));
 
   function pauseVideos() {
-    document.querySelectorAll('.clip iframe').forEach(f => {
-      f.contentWindow && f.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), '*');
+    clips.forEach(clip => {
+      const frame = clip.querySelector('.clip-frame');
+      const iframe = frame.querySelector('iframe');
+      if (iframe) frame.replaceChildren(posterButtons.get(clip));
     });
   }
 
@@ -696,20 +698,21 @@
     btn.addEventListener('click', () => {
       pause();
       pauseVideos();
-      const id = clip.dataset.vimeo;
+      const id = clip.dataset.mux;
       if (!id) {
         if (!frame.querySelector('.clip-note')) {
           const note = document.createElement('div');
           note.className = 'clip-note';
-          note.textContent = 'The Vimeo player opens here. Set data-vimeo on this video to enable it.';
+          note.textContent = 'The video player opens here once a Mux playback ID is set.';
           frame.appendChild(note);
           setTimeout(() => note.remove(), 2600);
         }
         return;
       }
-      const start = clip.dataset.start ? '#t=' + clip.dataset.start + 's' : '';
       const iframe = document.createElement('iframe');
-      iframe.src = 'https://player.vimeo.com/video/' + id + '?autoplay=1&title=0&byline=0&portrait=0&dnt=1' + start;
+      iframe.src = 'https://player.mux.com/' + encodeURIComponent(id) +
+        '?autoplay=true&video-title=' + encodeURIComponent(title) +
+        '&metadata-video-title=' + encodeURIComponent(title);
       iframe.allow = 'autoplay; fullscreen; picture-in-picture';
       iframe.allowFullscreen = true;
       iframe.title = title;
