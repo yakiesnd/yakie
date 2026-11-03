@@ -59,7 +59,7 @@ const formatDuration = (seconds: number) =>
   />
   <div class="arctic-player-meta">
     <p class="arctic-player-title" data-player-title>
-      {tracks[0]!.title} <em>— {tracks[0]!.subtitle}</em>
+      {tracks[0]!.title} - <em>{tracks[0]!.subtitle}</em>
     </p>
     <div class="arctic-player-meta-row">
       <p class="arctic-player-artist">Yakie</p>
@@ -110,7 +110,7 @@ const formatDuration = (seconds: number) =>
             <span class="arctic-track-eq" aria-hidden="true"><i></i><i></i><i></i></span>
           </span>
           <span class="arctic-track-title">
-            {track.title}{track.subtitle && <em> — {track.subtitle}</em>}
+            {track.title}{track.subtitle && <> - <em>{track.subtitle}</em></>}
           </span>
           <span class="arctic-track-duration">{formatDuration(track.duration)}</span>
         </button>
@@ -212,7 +212,8 @@ const formatDuration = (seconds: number) =>
         title.replaceChildren(document.createTextNode(track.dataset.trackTitle ?? ''));
         if (track.dataset.trackSubtitle) {
           const subtitle = document.createElement('em');
-          subtitle.textContent = ` — ${track.dataset.trackSubtitle}`;
+          subtitle.textContent = track.dataset.trackSubtitle;
+          title.append(document.createTextNode(' - '));
           title.append(subtitle);
         }
         trackButtons.forEach((button, trackIndex) => {
