@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import ArcticPlayer from '../ArcticPlayer.astro';
 import ArcticVisualReel from '../ArcticVisualReel.astro';
-import { portfolioCopy, portfolioSections, type PortfolioSection } from '../../data/portfolio';
+import { portfolioCopy, portfolioResidencies, portfolioSections, type PortfolioSection } from '../../data/portfolio';
 import { site } from '../../data/site';
 import { pageUrl, useTranslations, type Lang } from '../../i18n/ui';
 
@@ -91,6 +91,18 @@ const aboutText = lang === 'fr'
         <ArcticVisualReel lang={lang} />
       ) : section === 'about' ? (
         <p class="portfolio-copy">{aboutText}</p>
+      ) : section === 'residencies' ? (
+        <section class="portfolio-residencies" aria-labelledby="portfolio-residencies-title">
+          <h2 id="portfolio-residencies-title">{page.title[lang]}</h2>
+          <ol>
+            {portfolioResidencies.map((item) => (
+              <li>
+                <time>{item.period[lang]}</time>
+                <p>{item.description[lang]}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
       ) : section === 'home' ? (
         <nav class="portfolio-leaves" aria-label={lang === 'fr' ? 'Explorer les pages' : 'Explore the pages'}>
           {portfolioSections.map((item) => (
