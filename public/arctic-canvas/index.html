@@ -24,9 +24,9 @@
   5. Behaviour to keep: starting a video pauses the music, starting the music
      pauses any open video (Vimeo postMessage API), no sound ever autoplays,
      prefers-reduced-motion disables preview loops and the playing indicator.
-  6. Layout to keep: on a laptop screen the whole page (player + 4 videos) fits
-     without scrolling; the column width is derived from the viewport height
-     (see .page). On phones the page stacks and scrolls.
+  6. Layout to keep: on a laptop screen the player + 4 videos fit; the column
+     width is derived from the viewport height (see .page). The application text
+     follows the videos and scrolls; on phones the page stacks and scrolls.
   7. Placeholder content to replace: track titles 03-05, all durations,
      video titles and descriptions, artwork for tracks 02-05.
 -->
@@ -319,6 +319,33 @@
     font-size: 14px;
   }
 
+  /* ---------- Application text ---------- */
+  .application {
+    max-width: 760px;
+    margin: 48px auto 0;
+    border-top: 1px solid var(--ink);
+    padding-top: 24px;
+  }
+  .application h2 {
+    margin: 0 0 32px;
+    font: 700 clamp(1.5rem, 3vw, 2rem)/1.1 var(--sans);
+    letter-spacing: -.025em;
+  }
+  .application h3 {
+    margin: 28px 0 8px;
+    font: 700 16px/1.4 var(--sans);
+  }
+  .application p { margin: 0 0 14px; }
+  .application details {
+    margin-top: 40px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+  .application summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+
   /* ---------- Footer ---------- */
   .colophon {
     display: flex;
@@ -440,6 +467,53 @@
       </div>
     </figure>
   </section>
+
+  <article class="application" aria-labelledby="application-title">
+    <h2 id="application-title">ARCTIC CANVAS OPEN CALL - YAKIE</h2>
+
+    <h3>1. A short introduction to you and your work/practice.</h3>
+    <p>I'm Yakie, a French electronica musician and visual artist based in Paris. I've put out my own release on vinyl and digital, and made commissioned work for the French national radio station France Inter. My music is both gritty and aerial, made to move to: melancholic, never still, built on harmony and drums. I write it from a place. The visuals are audio-reactive and come from the light and the objects I find there.</p>
+
+    <h3>2. Tell us about the project or idea you would like to work on during your residency.</h3>
+    <p>I want to move forward with the live audiovisual side of my music, especially gesture and real-time arranging. For that, I play live on a wooden synth that interacts with visuals I will build from the idea of a claimed mark on driftwood.</p>
+    <p>Under Jónsbók, an Icelandic law code of 1281, whatever drifted onto a shore belonged to the landowner, who claimed the wood by carving a mark his neighbours knew. A tree that had belonged to no one became property with one cut. So what happens to a mark when the tree sets off again? What do time and salt do to a claim? What could a mark that undoes property sound like?</p>
+    <p>I'd like to take inspiration from fictional, altered marks and use their new shapes as the input for my music. The piece would start with a narrow chord voicing that reflects the tension I feel when I think of a cut in the wood. Over time, the chords become more open and release, following the buoyancy of the drifting wood on a wave.</p>
+
+    <h3>3. Why would a residency at Arctic Canvas be valuable to you and your work?</h3>
+    <p>I need the place to connect the idea of the driftwood mark to the reality of Snæfellsnes and its surroundings. Before locking myself in the studio, I plan to look closely at real preserved driftwood artifacts at the nearby Sjómannagarðurinn maritime museum in Hellissandur, to ground my digital 3D work in physical reality.</p>
+    <p>Then, the live set and the research also need a real room, large enough to try different projection setups under different kinds of natural light. And I think the diffuse light coming in from the landscape will help me find the right atmosphere for the prototype.</p>
+
+    <h3>4. What would you like to explore, develop or achieve during the two-week residency?</h3>
+    <p>I'll compose on site and build an audio-reactive 3D piece from scans or pictures of the wood and my interpretation of the marks, projected onto a log in the studio. More than anything, I'd like to let my mind drift beyond my initial plan and experience what the surroundings can offer me.</p>
+    <p>By the end of the two weeks, I'd like a first version that holds up, played once in the studio for whoever wants to listen.</p>
+
+    <h3>5. Please confirm that you have read and agree with the Must-Know Before You Apply section and Terms &amp; Conditions.</h3>
+    <p>I confirm that I have read and agree with the Must-Know Before You Apply section and the Terms &amp; Conditions. I will arrange and cover my own travel, 4x4 rental, food and insurance, and I will bring all my own equipment. I do not need a recording studio. I am used to driving on snowy roads and to working alone in remote places.</p>
+
+    <details lang="fr">
+      <summary>Version française</summary>
+      <h2>APPEL À CANDIDATURE ARCTIC CANVAS - YAKIE</h2>
+
+      <h3>1. Présentez-vous brièvement, ainsi que votre travail et votre pratique.</h3>
+      <p>Je suis Yakie, musicien d'electronica et artiste visuel français basé à Paris. J'ai publié mes propres morceaux sur vinyle et en numérique, et réalisé des créations sur commande pour la radio nationale française France Inter. Ma musique est à la fois rugueuse et aérienne, faite pour danser : mélancolique, jamais immobile, construite autour de l'harmonie et des percussions. Je l'écris à partir d'un lieu. Les visuels réagissent au son et naissent de la lumière et des objets que j'y trouve.</p>
+
+      <h3>2. Parlez-nous du projet ou de l'idée sur lesquels vous aimeriez travailler pendant votre résidence.</h3>
+      <p>Je souhaite poursuivre le développement de la dimension audiovisuelle live de ma musique, en particulier le geste et l'arrangement en temps réel. Pour cela, je joue en live sur un synthétiseur en bois qui interagit avec des visuels que je créerai à partir de l'idée d'une marque revendiquée sur du bois flotté.</p>
+      <p>Sous Jónsbók, code de lois islandais de 1281, tout ce qui échouait sur un rivage appartenait au propriétaire du terrain, qui revendiquait le bois en y gravant une marque connue de ses voisins. Un arbre qui n'avait appartenu à personne devenait une propriété d'un seul trait. Alors, qu'advient-il d'une marque lorsque l'arbre reprend la mer ? Que font le temps et le sel à une revendication ? À quoi pourrait sonner une marque qui défait la propriété ?</p>
+      <p>Je voudrais m'inspirer de marques fictives et altérées, et utiliser leurs nouvelles formes comme matériau pour ma musique. La pièce commencerait par un accord resserré qui reflète la tension que je ressens quand je pense à une entaille dans le bois. Au fil du temps, les accords s'ouvrent et se relâchent, suivant la flottabilité du bois dérivant sur une vague.</p>
+
+      <h3>3. En quoi une résidence à Arctic Canvas serait-elle bénéfique pour vous et votre travail ?</h3>
+      <p>J'ai besoin de ce lieu pour relier l'idée de la marque sur le bois flotté à la réalité de Snæfellsnes et de ses environs. Avant de m'enfermer dans le studio, je prévois d'observer de près de véritables objets en bois flotté conservés au musée maritime Sjómannagarðurinn, à Hellissandur, tout proche, afin d'ancrer mon travail numérique en 3D dans la réalité matérielle.</p>
+      <p>Ensuite, le live et la recherche ont aussi besoin d'une vraie pièce, assez grande pour essayer différentes configurations de projection sous différents types de lumière naturelle. Je pense que la lumière diffuse du paysage m'aidera à trouver la bonne atmosphère pour le prototype.</p>
+
+      <h3>4. Qu'aimeriez-vous explorer, développer ou accomplir pendant ces deux semaines de résidence ?</h3>
+      <p>Je composerai sur place et créerai une pièce 3D réactive au son à partir de scans ou de photos du bois et de mon interprétation des marques, projetée sur une bûche dans le studio. Plus que tout, j'aimerais laisser mon esprit dériver au-delà de mon plan initial et découvrir ce que les environs peuvent m'apporter.</p>
+      <p>À la fin des deux semaines, j'aimerais avoir une première version aboutie, présentée une fois au studio à celles et ceux qui voudront l'écouter.</p>
+
+      <h3>5. Veuillez confirmer que vous avez lu et accepté la section « À savoir avant de candidater » et les conditions générales.</h3>
+      <p>Je confirme avoir lu et accepter la section « À savoir avant de candidater » ainsi que les conditions générales. J'organiserai et prendrai à ma charge mon voyage, la location d'un 4x4, la nourriture et l'assurance, et j'apporterai tout mon matériel. Je n'ai pas besoin d'un studio d'enregistrement. J'ai l'habitude de conduire sur des routes enneigées et de travailler seul dans des lieux isolés.</p>
+    </details>
+  </article>
 
   <footer class="colophon">
     <p>Arctic Canvas - Download application as pdf</p>
