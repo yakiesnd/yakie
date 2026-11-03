@@ -138,14 +138,22 @@ const clips = [
     aspect-ratio: 16 / 9;
     background: #f1efed;
   }
-  .arctic-clip-frame img,
-  .arctic-clip-frame iframe {
+  .arctic-clip-frame img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     border: 0;
     object-fit: cover;
+  }
+  :global(.arctic-clip-frame > iframe) {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    border: 0;
   }
   .arctic-clip-open {
     position: absolute;
