@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { portfolioCopy, portfolioSections, type PortfolioSection } from '../../data/portfolio';
+import { portfolioCopy, portfolioResidencies, portfolioSections, type PortfolioSection } from '../../data/portfolio';
 import { site } from '../../data/site';
 import { pageUrl, useTranslations, type Lang } from '../../i18n/ui';
 
@@ -86,7 +86,7 @@ const previewCover = (index: number) => {
       </div>
     </header>
 
-    <main id="main" class:list={['portfolio-main', { 'portfolio-main-music': section === 'music' }]}>
+    <main id="main" class:list={['portfolio-main', { 'portfolio-main-music': section === 'music', 'portfolio-main-residencies': section === 'residencies' }]}>
       <h1 class="sr-only">Yakie — {page.title[lang]}</h1>
       <nav class="portfolio-menu" aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}>
         <ol>
@@ -164,6 +164,18 @@ const previewCover = (index: number) => {
               ))}
             </ol>
           </div>
+        </section>
+      ) : section === 'residencies' ? (
+        <section class="portfolio-residencies" aria-labelledby="portfolio-residencies-title">
+          <h2 id="portfolio-residencies-title">{page.title[lang]}</h2>
+          <ol>
+            {portfolioResidencies.map((item) => (
+              <li>
+                <time>{item.period[lang]}</time>
+                <p>{item.description[lang]}</p>
+              </li>
+            ))}
+          </ol>
         </section>
       ) : (
         <nav class="portfolio-leaves" aria-label={lang === 'fr' ? 'Explorer les pages' : 'Explore the pages'}>
@@ -421,6 +433,10 @@ const previewCover = (index: number) => {
     grid-template-columns: minmax(12rem, 0.75fr) minmax(0, 2.5fr);
   }
 
+  .portfolio-main-residencies {
+    align-items: start;
+  }
+
   .portfolio-menu ol {
     margin: 0;
     padding: 0;
@@ -453,6 +469,43 @@ const previewCover = (index: number) => {
     max-width: 60rem;
     aspect-ratio: 1.55;
     justify-self: end;
+  }
+
+  .portfolio-residencies {
+    width: 100%;
+    max-width: 58rem;
+    justify-self: end;
+  }
+
+  .portfolio-residencies h2 {
+    margin: 0 0 1.2rem;
+    font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+  }
+
+  .portfolio-residencies ol {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid #d2cecc;
+    list-style: none;
+  }
+
+  .portfolio-residencies li {
+    display: grid;
+    grid-template-columns: minmax(6rem, 0.28fr) minmax(0, 1fr);
+    gap: 1rem;
+    border-bottom: 1px solid #d2cecc;
+    padding-block: 0.75rem;
+  }
+
+  .portfolio-residencies time {
+    font-size: 0.9em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .portfolio-residencies p {
+    margin: 0;
   }
 
   .portfolio-leaf {
@@ -692,6 +745,10 @@ const previewCover = (index: number) => {
       margin-top: 1rem;
     }
 
+    .portfolio-residencies {
+      max-width: none;
+    }
+
     .leaf-music { left: 79%; top: 4%; }
     .leaf-visuals { left: 42%; top: 13%; }
     .leaf-residencies { left: 65%; top: 58%; }
@@ -704,5 +761,6 @@ const previewCover = (index: number) => {
     .portfolio-main { gap: 1.5rem; }
     .portfolio-menu ol { column-gap: 0.8rem; }
     .portfolio-leaves { min-height: 17rem; }
+    .portfolio-residencies li { grid-template-columns: 1fr; gap: 0.2rem; }
   }
 </style>
