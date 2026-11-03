@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ArcticPlayer from '../ArcticPlayer.astro';
+import ArcticVisualReel from '../ArcticVisualReel.astro';
 import { portfolioCopy, portfolioSections, type PortfolioSection } from '../../data/portfolio';
 import { site } from '../../data/site';
 import { pageUrl, useTranslations, type Lang } from '../../i18n/ui';
@@ -31,25 +33,12 @@ const personSchema = {
   url: Astro.site?.href,
   sameAs: socialLinks.map((social) => social.url),
 };
-const previewTracks = Array.from({ length: 5 }, (_, index) => ({
-  index,
-  title: lang === 'fr' ? `Morceau ${String(index + 1).padStart(2, '0')}` : `Track ${String(index + 1).padStart(2, '0')}`,
-  url: '',
-  artwork: '',
-}));
-const previewCover = (index: number) => {
-  const palettes = [
-    ['#d94734', '#edc440'],
-    ['#3f53e8', '#d94734'],
-    ['#edc440', '#3f53e8'],
-    ['#d94734', '#3f53e8'],
-    ['#3f53e8', '#edc440'],
-  ];
-  const [primary, secondary] = palettes[index]!;
-  const number = String(index + 1).padStart(2, '0');
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="${primary}"/><circle cx="300" cy="90" r="180" fill="${secondary}" opacity=".82"/><path d="M0 290 400 150v250H0z" fill="#171515" opacity=".8"/><text x="32" y="350" fill="#fff" font-family="sans-serif" font-size="54" letter-spacing="8">YAKIE</text><text x="340" y="350" fill="#fff" font-family="sans-serif" font-size="24" text-anchor="end">${number}</text></svg>`;
-  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
-};
+const pageMessage = section === 'residencies' || section === 'commissionedWork'
+  ? (lang === 'fr' ? 'Page en construction' : 'Page under construction')
+  : '';
+const aboutText = lang === 'fr'
+  ? 'Je suis Yakie, musicien d’electronica et artiste visuel français basé à Paris. J’ai sorti un disque en vinyle et en numérique, et réalisé des créations sur commande pour la radio nationale française France Inter. Ma musique est à la fois rugueuse et aérienne, faite pour danser : mélancolique, jamais immobile, construite autour de l’harmonie et des percussions. Je l’écris à partir d’un lieu. Les visuels réagissent au son et naissent de la lumière et des objets que j’y trouve.'
+  : 'I\'m Yakie, a French electronica musician and visual artist based in Paris. I\'ve put out my own release on vinyl and digital, and made commissioned work for the French national radio station France Inter. My music is both gritty and aerial, made to move to: melancholic, never still, built on harmony and drums. I write it from a place. The visuals are audio-reactive and come from the light and the objects I find there.';
 ---
 
 <Layout
@@ -61,14 +50,6 @@ const previewCover = (index: number) => {
   schema={personSchema}
   light
 >
-  {section === 'music' && (
-    <Fragment slot="head">
-      <link
-        rel="stylesheet"
-        href="https://unpkg.com/@arraypress/waveform-player@1.29.1/dist/waveform-player.css"
-      />
-    </Fragment>
-  )}
   <div class="portfolio-page">
     <header class="portfolio-header">
       <a class="portfolio-brand" href={pageUrl(lang, '/')}>
@@ -105,74 +86,18 @@ const previewCover = (index: number) => {
       </nav>
 
       {section === 'music' ? (
-        <section class="portfolio-player" aria-label={lang === 'fr' ? 'Lecteur et playlist de Yakie' : 'Yakie player and playlist'}>
-          <div
-            class="portfolio-player-widget"
-            data-music-playlist
-            data-play-label={lang === 'fr' ? 'Lire le morceau' : 'Play track'}
-            data-pause-label={lang === 'fr' ? 'Mettre en pause' : 'Pause'}
-            data-artwork-suffix={lang === 'fr' ? 'pochette' : 'artwork'}
-            role="group"
-            aria-label={lang === 'fr' ? 'Lecteur et playlist de Yakie' : 'Yakie player and playlist'}
-          >
-            <div class="portfolio-player-current">
-              <img
-                class="portfolio-player-artwork"
-                data-current-artwork
-                src={previewCover(0)}
-                width="400"
-                height="400"
-                alt={lang === 'fr' ? 'Pochette provisoire du morceau 01' : 'Placeholder artwork for track 01'}
-              />
-              <div class="portfolio-player-main">
-                <div class="portfolio-player-now-playing">
-                  <button class="portfolio-player-toggle" type="button" data-player-toggle disabled>
-                    <svg data-player-play-icon viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
-                    <svg data-player-pause-icon viewBox="0 0 24 24" aria-hidden="true" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z" /></svg>
-                  </button>
-                  <div class="portfolio-player-track-title" aria-live="polite">
-                    <span data-current-track-title>{previewTracks[0]!.title}</span>
-                    <span class="portfolio-player-artist">{site.name}</span>
-                  </div>
-                </div>
-                <div
-                  class="portfolio-waveform"
-                  data-player-waveform
-                  data-title={previewTracks[0]!.title}
-                  data-artist={site.name}
-                  aria-label={lang === 'fr' ? 'Forme d’onde audio' : 'Audio waveform'}
-                ></div>
-              </div>
-            </div>
-            <ol class="portfolio-player-tracklist" aria-label={lang === 'fr' ? 'Playlist' : 'Playlist'}>
-              {previewTracks.map((track) => (
-                <li>
-                  <button
-                    type="button"
-                    class="portfolio-player-track"
-                    data-track-index={track.index}
-                    data-track-title={track.title}
-                    data-track-url={track.url}
-                    data-track-artwork={track.artwork}
-                    data-track-placeholder-artwork={previewCover(track.index)}
-                    aria-current={track.index === 0 ? 'true' : undefined}
-                  >
-                    <span>{track.title}</span>
-                    <span class="portfolio-player-track-duration">—:—</span>
-                  </button>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-      ) : (
+        <ArcticPlayer lang={lang} />
+      ) : section === 'visuals' ? (
+        <ArcticVisualReel lang={lang} />
+      ) : section === 'about' ? (
+        <p class="portfolio-copy">{aboutText}</p>
+      ) : section === 'home' ? (
         <nav class="portfolio-leaves" aria-label={lang === 'fr' ? 'Explorer les pages' : 'Explore the pages'}>
           {portfolioSections.map((item) => (
             <a
               class:list={['portfolio-leaf', item.position, `leaf-${item.color}`, `leaf-${item.size}`]}
               href={pageUrl(lang, item.path)}
               aria-label={item.label[lang]}
-              aria-current={section === item.id ? 'page' : undefined}
               style={`--leaf-rotation: ${item.rotation}deg`}
             >
               <span>{item.label[lang]}</span>
@@ -184,148 +109,10 @@ const previewCover = (index: number) => {
             </a>
           ))}
         </nav>
+      ) : (
+        <p class="portfolio-copy">{pageMessage}</p>
       )}
     </main>
-
-    {section === 'music' && (
-      <script>
-        interface WaveformPlayerInstance {
-          loadTrack(
-            url: string,
-            title?: string | null,
-            artist?: string | null,
-            options?: { autoplay?: boolean },
-          ): Promise<void>;
-          pause(): void;
-          setWaveformData(data: number[]): void;
-          togglePlay(): void;
-        }
-
-        interface WaveformPlayerOptions {
-          showControls: false;
-          showInfo: false;
-          showTime: false;
-          waveformStyle: 'mirror';
-          preload: 'none';
-          singlePlay: true;
-          waveformColor: string;
-          progressColor: string;
-          onPlay: () => void;
-          onPause: () => void;
-        }
-
-        declare global {
-          interface Window {
-            WaveformPlayer?: new (
-              container: HTMLElement,
-              options: WaveformPlayerOptions,
-            ) => WaveformPlayerInstance;
-          }
-        }
-
-        const widget = document.querySelector<HTMLElement>('[data-music-playlist]');
-        const waveform = widget?.querySelector<HTMLElement>('[data-player-waveform]');
-
-        if (widget && waveform) {
-          const previewPeaks = [
-            0.26, 0.58, 0.82, 0.42, 0.94, 0.64, 1, 0.5, 0.78, 1, 0.7, 0.46, 0.88, 0.62, 1,
-            0.66, 0.42, 0.84, 0.96, 0.6, 0.4, 0.88, 0.68, 1, 0.54, 0.76, 0.9, 0.48, 0.7, 0.58,
-          ];
-          const loadPlayerRuntime = () => new Promise<void>((resolve, reject) => {
-            if (window.WaveformPlayer) {
-              resolve();
-              return;
-            }
-
-            const script = document.createElement('script');
-            script.src = 'https://unpkg.com/@arraypress/waveform-player@1.29.1/dist/waveform-player.min.js';
-            script.async = true;
-            script.onload = () => resolve();
-            script.onerror = () => reject(new Error('Impossible de charger WaveformPlayer depuis unpkg.'));
-            document.head.append(script);
-          });
-
-          void loadPlayerRuntime().then(() => {
-            const WaveformPlayer = window.WaveformPlayer;
-            if (!WaveformPlayer) throw new Error('WaveformPlayer est indisponible après le chargement.');
-
-            const cover = widget.querySelector<HTMLImageElement>('[data-current-artwork]');
-            const title = widget.querySelector<HTMLElement>('[data-current-track-title]');
-            const toggle = widget.querySelector<HTMLButtonElement>('[data-player-toggle]');
-            const playIcon = widget.querySelector<SVGElement>('[data-player-play-icon]');
-            const pauseIcon = widget.querySelector<SVGElement>('[data-player-pause-icon]');
-            const tracks = Array.from(widget.querySelectorAll<HTMLButtonElement>('[data-track-index]'));
-            if (!cover || !title || !toggle || !playIcon || !pauseIcon) return;
-
-            const setPlaying = (playing: boolean) => {
-              playIcon.style.display = playing ? 'none' : '';
-              pauseIcon.style.display = playing ? '' : 'none';
-              toggle.setAttribute('aria-label', playing ? widget.dataset.pauseLabel ?? '' : widget.dataset.playLabel ?? '');
-            };
-
-            const player = new WaveformPlayer(waveform, {
-              showControls: false,
-              showInfo: false,
-              showTime: false,
-              waveformStyle: 'mirror',
-              preload: 'none',
-              singlePlay: true,
-              waveformColor: 'rgba(63, 83, 232, 0.38)',
-              progressColor: '#1715d9',
-              onPlay: () => setPlaying(true),
-              onPause: () => setPlaying(false),
-            });
-            waveform.classList.add('portfolio-waveform');
-            player.setWaveformData(previewPeaks);
-
-            let currentIndex = 0;
-            let currentUrl = '';
-
-            toggle.addEventListener('click', () => {
-              if (currentUrl) player.togglePlay();
-            });
-
-            tracks.forEach((track) => {
-              track.addEventListener('click', () => {
-                const index = Number(track.dataset.trackIndex);
-                const url = track.dataset.trackUrl ?? '';
-                const trackTitle = track.dataset.trackTitle ?? '';
-                const artwork = track.dataset.trackArtwork || track.dataset.trackPlaceholderArtwork || '';
-                tracks.forEach((item) => item.removeAttribute('aria-current'));
-                track.setAttribute('aria-current', 'true');
-                cover.src = artwork;
-                cover.alt = `${trackTitle} — ${widget.dataset.artworkSuffix ?? 'artwork'}`;
-                title.textContent = trackTitle;
-
-                if (index === currentIndex && url && currentUrl) {
-                  player.togglePlay();
-                  return;
-                }
-
-                currentIndex = index;
-                if (!url) {
-                  currentUrl = '';
-                  player.pause();
-                  toggle.disabled = true;
-                  setPlaying(false);
-                  player.setWaveformData(previewPeaks);
-                  return;
-                }
-
-                currentUrl = url;
-                toggle.disabled = false;
-                void player.loadTrack(url, trackTitle, 'Yakie', { autoplay: true }).catch((error: unknown) => {
-                  console.error('Impossible de lire ce morceau avec WaveformPlayer.', error);
-                  setPlaying(false);
-                });
-              });
-            });
-          }).catch((error: unknown) => {
-            console.error('Impossible d’initialiser le lecteur musical.', error);
-          });
-        }
-      </script>
-    )}
 
     <footer class="portfolio-footer">
       <span>{page.title[lang]}</span>
@@ -447,6 +234,15 @@ const previewCover = (index: number) => {
     text-underline-offset: 0.2em;
   }
 
+  .portfolio-copy {
+    width: 100%;
+    max-width: 52rem;
+    justify-self: center;
+    margin: 0;
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    line-height: 1.55;
+  }
+
   .portfolio-leaves {
     position: relative;
     width: 100%;
@@ -466,10 +262,6 @@ const previewCover = (index: number) => {
     white-space: nowrap;
   }
 
-  .portfolio-leaf span {
-    transition: transform 160ms ease;
-  }
-
   .portfolio-leaf svg {
     display: block;
     width: var(--leaf-width);
@@ -481,10 +273,7 @@ const previewCover = (index: number) => {
     transition: transform 200ms ease;
   }
 
-  .leaf-shape {
-    fill: currentColor;
-  }
-
+  .leaf-shape { fill: currentColor; }
   .leaf-vein {
     fill: none;
     stroke: #fff;
@@ -492,12 +281,10 @@ const previewCover = (index: number) => {
     stroke-width: 2;
     opacity: 0.65;
   }
-
   .portfolio-leaf:hover svg,
   .portfolio-leaf:focus-visible svg {
     transform: rotate(var(--leaf-rotation)) scale(1.12);
   }
-
   .leaf-red { --leaf-color: var(--leaf-red); }
   .leaf-yellow { --leaf-color: var(--leaf-yellow); }
   .leaf-blue { --leaf-color: var(--leaf-blue); }
@@ -505,7 +292,6 @@ const previewCover = (index: number) => {
   .leaf-medium { --leaf-width: clamp(2.7rem, 3.3vw, 4.2rem); }
   .leaf-small { --leaf-width: clamp(1.8rem, 2.2vw, 2.8rem); }
   .leaf-tiny { --leaf-width: clamp(1.2rem, 1.4vw, 1.8rem); }
-
   .leaf-music { left: 83%; top: 4%; }
   .leaf-visuals { left: 42%; top: 17%; }
   .leaf-residencies { left: 66%; top: 60%; }
@@ -516,158 +302,6 @@ const previewCover = (index: number) => {
     align-items: center;
     border-bottom: 1px solid var(--ink);
     padding-bottom: 0.3rem;
-  }
-
-  .portfolio-player {
-    width: min(100%, 34rem);
-    margin-inline: auto;
-  }
-
-  .portfolio-player-widget {
-    --portfolio-cover-size: 6rem;
-    --wfp-accent: #d94734;
-    --wfp-button-color: #171515;
-    --wfp-text-color: #171515;
-    --wfp-text-secondary-color: #595454;
-  }
-
-  .portfolio-player-current {
-    display: grid;
-    grid-template-columns: var(--portfolio-cover-size) minmax(0, 1fr);
-    gap: 0.75rem;
-    align-items: stretch;
-  }
-
-  .portfolio-player-artwork {
-    display: block;
-    width: var(--portfolio-cover-size);
-    aspect-ratio: 1;
-    object-fit: cover;
-    background: #e7e4e2;
-  }
-
-  .portfolio-player-main {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-block: 0.15rem;
-  }
-
-  .portfolio-player-now-playing {
-    display: flex;
-    min-width: 0;
-    align-items: center;
-    gap: 0.6rem;
-  }
-
-  .portfolio-player-toggle {
-    display: grid;
-    width: 2.25rem;
-    height: 2.25rem;
-    flex: none;
-    place-items: center;
-    border: 0;
-    border-radius: 9999px;
-    color: white;
-    background: #1715d9;
-    cursor: pointer;
-  }
-
-  .portfolio-player-toggle:disabled {
-    cursor: default;
-    opacity: 0.48;
-  }
-
-  .portfolio-player-toggle svg {
-    width: 1.1rem;
-    height: 1.1rem;
-    fill: currentColor;
-  }
-
-  .portfolio-player-track-title {
-    min-width: 0;
-    overflow: hidden;
-    font-weight: 600;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .portfolio-player-artist {
-    display: block;
-    overflow: hidden;
-    color: #595454;
-    font-size: 0.78em;
-    font-weight: 400;
-    text-overflow: ellipsis;
-  }
-
-  .portfolio-waveform {
-    min-width: 0;
-    width: 100%;
-  }
-
-  .portfolio-waveform .waveform-info {
-    display: none;
-  }
-
-  .portfolio-waveform .waveform-container {
-    min-height: 3rem;
-  }
-
-  .portfolio-waveform canvas {
-    height: 3rem;
-  }
-
-  .portfolio-waveform .waveform-player {
-    --waveform-body-gap: 0;
-  }
-
-  .portfolio-player-tracklist {
-    margin: 0.65rem 0 0;
-    padding: 0;
-    border-top: 1px solid #d2cecc;
-    list-style: none;
-  }
-
-  .portfolio-player-track {
-    display: flex;
-    width: 100%;
-    min-height: 2.4rem;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    border: 0;
-    border-bottom: 1px solid #d2cecc;
-    border-left: 2px solid transparent;
-    padding: 0.3rem 0.55rem;
-    color: #595454;
-    background: transparent;
-    cursor: pointer;
-    font-size: 0.9rem;
-    text-align: left;
-  }
-
-  .portfolio-player-track[aria-current='true'] {
-    border-left-color: #1715d9;
-    color: #171515;
-  }
-
-  .portfolio-player-track-duration {
-    flex: none;
-    color: #595454;
-    font-size: 0.75rem;
-    font-variant-numeric: tabular-nums;
-  }
-
-  @media (max-width: 420px) {
-    .portfolio-player-widget {
-      --portfolio-cover-size: 5rem;
-    }
-
-    .portfolio-player-track {
-      min-height: 2.25rem;
-    }
   }
 
   @media (max-width: 760px) {
@@ -686,10 +320,6 @@ const previewCover = (index: number) => {
     .portfolio-leaves {
       min-height: 20rem;
       aspect-ratio: 1.3;
-    }
-
-    .portfolio-player {
-      margin-top: 1rem;
     }
 
     .leaf-music { left: 79%; top: 4%; }
