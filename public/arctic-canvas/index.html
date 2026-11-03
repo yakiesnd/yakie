@@ -396,9 +396,9 @@
   </header>
 
   <section class="player" aria-label="Music">
-    <img class="art" id="art" src="assets/tracks/01%20-%20Shinny%20Rust%20Eyes%20-%20WIP.jpg" alt="Artwork for Shinny Rust Eyes - WIP">
+    <img class="art" id="art" src="assets/tracks/02%20-%20Your%20Light%20Roamed%20First.jpg" alt="Artwork for Your Light Roamed First">
     <div class="meta">
-      <p class="now-title" id="now-title">Shinny Rust Eyes - WIP</p>
+      <p class="now-title" id="now-title">Shinny Rust Eyes - <em>work in progress</em></p>
       <div class="meta-row">
         <p class="now-artist" id="now-artist">Yakie</p>
         <span class="time" id="time">0:00 / 4:31</span>
@@ -526,7 +526,7 @@
 
 <script type="application/json" id="tracks">
 [
-  { "title": "Shinny Rust Eyes - WIP", "artist": "Yakie", "src": "assets/tracks/01%20-%20Shinny%20Rust%20Eyes%20-%20WIP.ogg", "art": "assets/tracks/01%20-%20Shinny%20Rust%20Eyes%20-%20WIP.jpg", "duration": 225 },
+  { "title": "Shinny Rust Eyes", "subtitle": "work in progress", "artist": "Yakie", "src": "assets/tracks/01%20-%20Shinny%20Rust%20Eyes%20-%20WIP.ogg", "art": "assets/tracks/02%20-%20Your%20Light%20Roamed%20First.jpg", "artTitle": "Your Light Roamed First", "duration": 225 },
   { "title": "Your Light Roamed First", "artist": "Yakie", "src": "assets/tracks/02%20-%20Your%20Light%20Roamed%20First.ogg", "art": "assets/tracks/02%20-%20Your%20Light%20Roamed%20First.jpg", "duration": 289 },
   { "title": "Ida Remains", "artist": "Yakie", "src": "assets/tracks/03%20-%20Ida%20Remains.ogg", "art": "assets/tracks/03%20-%20Ida%20Remains.jpg", "duration": 244 },
   { "title": "Swallowing Canyon", "artist": "Yakie", "src": "assets/tracks/03%20-%20Swallowing%20Canyon.ogg", "art": "assets/tracks/03%20-%20Swallowing%20Canyon.jpg", "duration": 307 },
@@ -548,6 +548,15 @@
   let current = 0;
   let playing = false;
   const sim = { t: 0, raf: 0, last: 0 };   // simulated playback while "src" is empty
+  function renderTitle(container, track) {
+    container.replaceChildren(document.createTextNode(track.title));
+    if (track.subtitle) {
+      container.append(document.createTextNode(' - '));
+      const subtitle = document.createElement('em');
+      subtitle.textContent = track.subtitle;
+      container.append(subtitle);
+    }
+  }
 
   const hasSrc = () => !!tracks[current].src;
   const duration = () => (hasSrc() && isFinite(audio.duration)) ? audio.duration : tracks[current].duration;
@@ -630,10 +639,10 @@
     current = i;
     sim.t = 0;
     const t = tracks[i];
-    el('now-title').textContent = t.title;
+    renderTitle(el('now-title'), t);
     el('now-artist').textContent = t.artist;
     el('art').src = t.art;
-    el('art').alt = 'Artwork for ' + t.title;
+    el('art').alt = 'Artwork for ' + (t.artTitle || t.title);
     if (t.src) { audio.src = t.src; } else { audio.removeAttribute('src'); audio.load(); }
     list.querySelectorAll('.track').forEach((b, k) => b.setAttribute('aria-current', k === i ? 'true' : 'false'));
     render();
@@ -651,7 +660,7 @@
         '<span class="track-title"></span>' +
         '<span class="track-dur">' + fmt(t.duration) + '</span>' +
       '</button>';
-    li.querySelector('.track-title').textContent = t.title;
+    renderTitle(li.querySelector('.track-title'), t);
     li.querySelector('.track').addEventListener('click', () => {
       if (i === current) { playing ? pause() : play(); } else { load(i, true); }
     });
