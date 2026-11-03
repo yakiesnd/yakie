@@ -396,9 +396,9 @@
   </header>
 
   <section class="player" aria-label="Music">
-    <img class="art" id="art" src="assets/artwork-01.jpg" alt="">
+    <img class="art" id="art" src="assets/tracks/01%20-%20Shinny%20Rust%20Eyes%20-%20WIP.jpg" alt="Artwork for Shinny Rust Eyes - WIP">
     <div class="meta">
-      <p class="now-title" id="now-title">Your Light Roamed First</p>
+      <p class="now-title" id="now-title">Shinny Rust Eyes - WIP</p>
       <div class="meta-row">
         <p class="now-artist" id="now-artist">Yakie</p>
         <span class="time" id="time">0:00 / 4:31</span>
@@ -526,11 +526,11 @@
 
 <script type="application/json" id="tracks">
 [
-  { "title": "Your Light Roamed First", "artist": "Yakie", "src": "", "art": "assets/artwork-01.jpg", "duration": 271 },
-  { "title": "It Feels So Lonely (feat. Waralu)", "artist": "Yakie", "src": "", "art": "assets/artwork-01.jpg", "duration": 238 },
-  { "title": "Track 03", "artist": "Yakie", "src": "", "art": "assets/artwork-01.jpg", "duration": 220 },
-  { "title": "Track 04", "artist": "Yakie", "src": "", "art": "assets/artwork-01.jpg", "duration": 254 },
-  { "title": "Track 05", "artist": "Yakie", "src": "", "art": "assets/artwork-01.jpg", "duration": 301 }
+  { "title": "Shinny Rust Eyes - WIP", "artist": "Yakie", "src": "assets/tracks/01%20-%20Shinny%20Rust%20Eyes%20-%20WIP.ogg", "art": "assets/tracks/01%20-%20Shinny%20Rust%20Eyes%20-%20WIP.jpg", "duration": 225 },
+  { "title": "Your Light Roamed First", "artist": "Yakie", "src": "assets/tracks/02%20-%20Your%20Light%20Roamed%20First.ogg", "art": "assets/tracks/02%20-%20Your%20Light%20Roamed%20First.jpg", "duration": 289 },
+  { "title": "Ida Remains", "artist": "Yakie", "src": "assets/tracks/03%20-%20Ida%20Remains.ogg", "art": "assets/tracks/03%20-%20Ida%20Remains.jpg", "duration": 244 },
+  { "title": "Swallowing Canyon", "artist": "Yakie", "src": "assets/tracks/03%20-%20Swallowing%20Canyon.ogg", "art": "assets/tracks/03%20-%20Swallowing%20Canyon.jpg", "duration": 307 },
+  { "title": "Pale Comet", "artist": "Yakie", "src": "assets/tracks/05%20-%20Pale%20Comet.ogg", "art": "assets/tracks/05%20-%20Pale%20Comet.jpg", "duration": 357 }
 ]
 </script>
 
@@ -633,6 +633,7 @@
     el('now-title').textContent = t.title;
     el('now-artist').textContent = t.artist;
     el('art').src = t.art;
+    el('art').alt = 'Artwork for ' + t.title;
     if (t.src) { audio.src = t.src; } else { audio.removeAttribute('src'); audio.load(); }
     list.querySelectorAll('.track').forEach((b, k) => b.setAttribute('aria-current', k === i ? 'true' : 'false'));
     render();
