@@ -36,9 +36,16 @@ const personSchema = {
 const pageMessage = section === 'residencies' || section === 'commissionedWork'
   ? (lang === 'fr' ? 'Page en construction' : 'Page under construction')
   : '';
-const aboutText = lang === 'fr'
-  ? 'Je suis Yakie, musicien d’electronica et artiste visuel français basé à Paris. J’ai sorti un disque en vinyle et en numérique, et réalisé des créations sur commande pour la radio nationale française France Inter. Ma musique est à la fois rugueuse et aérienne, faite pour danser : mélancolique, jamais immobile, construite autour de l’harmonie et des percussions. Je l’écris à partir d’un lieu. Les visuels réagissent au son et naissent de la lumière et des objets que j’y trouve.'
-  : 'I\'m Yakie, a French electronica musician and visual artist based in Paris. I\'ve put out my own release on vinyl and digital, and made commissioned work for the French national radio station France Inter. My music is both gritty and aerial, made to move to: melancholic, never still, built on harmony and drums. I write it from a place. The visuals are audio-reactive and come from the light and the objects I find there.';
+const aboutTextParagraphs = lang === 'fr'
+  ? [
+      'Je suis Yakie, musicien d’electronica et artiste visuel français basé à Paris. J’ai sorti un disque en vinyle et en numérique, et réalisé des créations sur commande pour la radio nationale française France Inter.',
+      'Ma musique est à la fois rugueuse et aérienne, faite pour danser : mélancolique, jamais immobile, construite autour de l’harmonie et des percussions. Je l’écris à partir d’un lieu. Les visuels réagissent au son et naissent de la lumière et des objets que j’y trouve.',
+    ]
+  : [
+      'I\'m Yakie, a French electronica musician and visual artist based in Paris. I\'ve put out my own release on vinyl and digital, and made commissioned work for the French national radio station France Inter.',
+      'My music is both gritty and aerial, made to move to: melancholic, never still, built on harmony and drums. I write it from a place. The visuals are audio-reactive and come from the light and the objects I find there.',
+    ];
+const aboutText = aboutTextParagraphs.join(' ');
 ---
 
 <Layout
@@ -104,23 +111,12 @@ const aboutText = lang === 'fr'
           </ol>
         </section>
       ) : section === 'home' ? (
-        <nav class="portfolio-leaves" aria-label={lang === 'fr' ? 'Explorer les pages' : 'Explore the pages'}>
-          {portfolioSections.map((item) => (
-            <a
-              class:list={['portfolio-leaf', item.position, `leaf-${item.color}`, `leaf-${item.size}`]}
-              href={pageUrl(lang, item.path)}
-              aria-label={item.label[lang]}
-              style={`--leaf-rotation: ${item.rotation}deg`}
-            >
-              <span>{item.label[lang]}</span>
-              <svg viewBox="0 0 100 160" aria-hidden="true">
-                <path class="leaf-shape" d="M50 4C22 28 5 58 8 91c3 30 21 52 42 65 21-13 39-35 42-65C95 58 78 28 50 4Z" />
-                <path class="leaf-vein" d="M50 145C49 104 49 59 50 15" />
-                <path class="leaf-vein" d="M49 88 27 58M50 108l23-35" />
-              </svg>
-            </a>
-          ))}
-        </nav>
+        <div class="portfolio-home-content">
+          <div class="portfolio-copy portfolio-intro">
+            {aboutTextParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+          <ArcticPlayer lang={lang} />
+        </div>
       ) : (
         <p class="portfolio-copy">{pageMessage}</p>
       )}
@@ -255,8 +251,24 @@ const aboutText = lang === 'fr'
     max-width: 52rem;
     justify-self: center;
     margin: 0;
-    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    font-size: inherit;
     line-height: 1.55;
+  }
+
+  .portfolio-home-content {
+    display: grid;
+    width: 100%;
+    justify-self: center;
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .portfolio-intro {
+    display: grid;
+    gap: 1.2em;
+  }
+
+  .portfolio-intro p {
+    margin: 0;
   }
 
   .portfolio-leaves {
