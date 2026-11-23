@@ -17,10 +17,10 @@ const description = 'Page de test Spotify';
     <h1>{title}</h1>
     <div id="spotify-embed" aria-label="Lecteur Spotify"></div>
     <p id="spotify-status" role="status" aria-live="polite">
-      Tentative de lecture automatique / Trying to start playback automatically…
+      La lecture automatique peut être bloquée. Cliquez pour démarrer / Autoplay may be blocked. Click to start.
     </p>
-    <button id="spotify-play" class="spotify-play" type="button" hidden disabled>
-      Démarrer la lecture / Start playback
+    <button id="spotify-play" class="spotify-play" type="button" disabled>
+      ▶ Démarrer la lecture / Start playback
     </button>
     <a
       class="spotify-link"
@@ -63,12 +63,14 @@ const description = 'Page de test Spotify';
           status.textContent = 'Démarrage de la lecture… / Starting playback…';
         });
 
+        button.hidden = false;
+        status.textContent =
+          'Cliquez sur le bouton pour démarrer la lecture / Click the button to start playback.';
         controller.play();
         window.setTimeout(() => {
           if (!playbackStarted) {
-            button.hidden = false;
             status.textContent =
-              'Le navigateur bloque peut-être la lecture automatique. Cliquez pour démarrer / Your browser may block autoplay. Click to start.';
+              'Si la lecture ne démarre pas, cliquez sur le bouton vert / If playback does not start, click the green button.';
           }
         }, 1500);
       },
@@ -97,7 +99,7 @@ const description = 'Page de test Spotify';
 
   .spotify-play {
     display: block;
-    padding: 12px 20px;
+    padding: 14px 24px;
     border: 0;
     border-radius: 999px;
     background: #1ed760;
@@ -105,6 +107,11 @@ const description = 'Page de test Spotify';
     font: inherit;
     font-weight: 700;
     cursor: pointer;
+  }
+
+  .spotify-play:disabled {
+    cursor: wait;
+    opacity: 0.6;
   }
 
   .spotify-play[hidden] {
